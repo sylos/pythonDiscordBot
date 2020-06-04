@@ -3,11 +3,11 @@
 import discord
 import random
 import sys
-import simply_commands
+import simple_commands
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
-
+BOT_OWNER_ID = 118907310243315712
 
 @bot.event
 async def on_ready():
@@ -21,8 +21,12 @@ async def greet(ctx):
 
 @bot.command()
 async def shutdown(ctx):
-    await ctx.send("Killing myself!")
-    sys.exit('Killing Bot')
+    if ctx.message.author.id == BOT_OWNER_ID:   
+        await ctx.send("Killing myself!")
+        sys.exit('Killing Bot')
+    
+    await ctx.send("""Killing myself!  Haha...just kidding.  
+            {} is not authorized""".format(ctx.message.author.id))
 
 @bot.command()
 async def add(ctx, a: int, b: int):
@@ -31,6 +35,11 @@ async def add(ctx, a: int, b: int):
 @bot.command()
 async def multiply(ctx, a:int, b: int):
     await ctx.send(a*b)
+
+@bot.command()
+async def authorID(ctx):
+    await ctx.send("author is: {}".format(
+        ctx.message.author.id))
 
 @bot.command()
 async def cat(ctx):
