@@ -1,6 +1,9 @@
+#!/srv/development/discordBot/pyBot/bin/python
+
 import discord
 import random
 import sys
+import simply_commands
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
