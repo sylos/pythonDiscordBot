@@ -44,11 +44,10 @@ class Number_game(commands.Cog):
             await ctx.send("{} guessed {} as the correct value!".format(ctx.message.author.name, self.number))
             return
         elif(guess > self.number):
-            await ctx.send("{} guess is  high".format(ctx.message.author.name))
+            await ctx.send("{}'s guess is  high".format(ctx.message.author.name))
         else:
-            await ctx.send("{} guess is low".format(ctx.message.author.name))
+            await ctx.send("{}'s guess is low".format(ctx.message.author.name))
 
-        await ctx.send("WRONG")
 
     @commands.command("number")
     async def number_value(self, ctx):
