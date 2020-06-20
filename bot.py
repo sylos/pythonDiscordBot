@@ -46,7 +46,10 @@ async def restart(ctx):
 
 
 @bot.command()
-async def add(ctx, a: int, b: int):
+async def add(ctx, a, b):
+    if(not a.isnumeric() or not b.isnumeric()):
+        await ctx.send("Please sir, I am only a simply calculator.  I can only add numeric digits")
+        return
     await ctx.send(a+b)
 
 @bot.command()
