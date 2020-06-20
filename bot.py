@@ -5,6 +5,7 @@ import random
 import sys
 import os
 import simple_commands
+import number_game
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
@@ -81,6 +82,7 @@ async def command_help(ctx):
 
 def main():
     bot.load_extension('simple_commands')
+    bot.load_extension('number_game')
     bot.run(BOT_TOKEN)
 
 
