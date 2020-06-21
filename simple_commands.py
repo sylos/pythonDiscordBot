@@ -1,5 +1,5 @@
 from discord.ext import commands
-
+import datetime
 
 class Simple_commands(commands.Cog):
     def __init__(self, bot):
@@ -14,6 +14,11 @@ class Simple_commands(commands.Cog):
     @commands.command()
     async def repeat(self,ctx,*, a: str="No strings on me"):
         await ctx.send("You said: {}".format(a))
+    
+    @commands.command(name="utc")
+    async def current_time_utc(self, ctx):
+        ts = datetime.datetime.now()
+        await ctx.send("Current time UTC: {}".format(ts))
 
     @commands.command(name="numbers")
     async def guess_number(self, ctx):
