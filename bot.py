@@ -5,7 +5,8 @@ import random
 import sys
 import os
 import simple_commands
-import bot_cogs.number_game
+import cogs.number_game
+import cogs.math_cog
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
@@ -43,19 +44,6 @@ async def restart(ctx):
     #log this with author
     await ctx.send("I don't wanna!")
 
-
-
-@bot.command()
-async def add(ctx, a, b):
-    if(not a.isnumeric() or not b.isnumeric()):
-        await ctx.send("Please sir, I am only a simply calculator.  I can only add numeric digits")
-        return
-    await ctx.send(a+b)
-
-@bot.command()
-async def multiply(ctx, a:int, b: int):
-    await ctx.send(a*b)
-
 @bot.command(name='author')
 async def authorID(ctx):
     await ctx.send("author is: {}".format(
@@ -85,7 +73,8 @@ async def command_help(ctx):
 
 def main():
     bot.load_extension('simple_commands')
-    bot.load_extension('bot_cogs.number_game')
+    bot.load_extension('cogs.number_game')
+    bot.load_extension('cogs.math_cog')
     bot.run(BOT_TOKEN)
 
 
