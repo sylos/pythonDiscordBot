@@ -8,11 +8,13 @@ import simple_commands
 import cogs.number_game
 import cogs.math_cog
 from discord.ext import commands
+from dbManagement.dbManager import DBManagement
+
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
 BOT_TOKEN = 'NDY2NDIyOTg5NTI1ODc2NzM2.DjAu1w.3393qog5bqEQs-o8QiTVNpJXHrc'
 BOT_OWNER_ID = 118907310243315712
-
+db = DBManagement()
 
 @bot.event
 async def on_ready():
@@ -71,10 +73,15 @@ async def command_help(ctx):
     ```"""
     await ctx.send(commands)
 
+@bot.command()
+async def testDB(ctx):
+    db.test_db()   
+    await ctx.send('Testing DB')
 def main():
     bot.load_extension('simple_commands')
     bot.load_extension('cogs.number_game')
     bot.load_extension('cogs.math_cog')
+
     bot.run(BOT_TOKEN)
 
 

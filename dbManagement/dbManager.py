@@ -1,22 +1,21 @@
 import psycopg2
 import sqlalchemy
-import sqlalchemy_utils
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from  sqlalchemy_utils import database_exists, create_database
+import dbManagement.config as config
 
 
-Base = declarative_base()
+from dbManagement.base import Base
 
-db_connection_info = 'localhost/discordBotDB'
-db_user = 'postgres'
-db_pass = 'ThisIsMyPostgresPass#1'
-
-
+import dbManagement.user
+from dbManagement.dbMessage import DBMessage
 
 
 class DBManagement():
 
     def __init__(self):
-        self.engine = create_engine('postgresql+psycopg2://'
-                +db_user+':'+db_pass+'@'+db_connection_info)
+        self.engine = sqlalchemy.create_engine(config.DATABASE_URI)
 
         #need to test if I can connect to the DB at all. Useful when DB is no longer on box
 
@@ -25,7 +24,19 @@ class DBManagement():
             print("Creating DB since it does not exist")
             create_database(self.engine.url)
 
-        self.Session = sessionMaker(bind=self.engine)
-        self.session - self.Session()
+        self.Session = sessionmaker(bind=self.engine)
+        self.session = self.Session()
 
-        
+        Base.metadata.create_all(self.engine)
+        self.session.commit()
+    
+    def test_db(self):
+        message = DBMessage(author='Sylos',content='The first message')
+        self.session.add(message)
+        self.session.commit()
+
+#    def  add_message(self, message: Message):
+#        self.session.add(message)
+#        self.session.commit()
+
+    
