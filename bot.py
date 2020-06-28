@@ -10,7 +10,6 @@ import cogs.math_cog
 from discord.ext import commands
 from dbManagement.dbManager import DBManagement
 
-
 bot = commands.Bot(command_prefix='$', description='Waddup')
 BOT_TOKEN = 'NDY2NDIyOTg5NTI1ODc2NzM2.DjAu1w.3393qog5bqEQs-o8QiTVNpJXHrc'
 BOT_OWNER_ID = 118907310243315712
@@ -24,8 +23,20 @@ async def on_ready():
 
 @bot.command()
 async def greet(ctx):
-    user =  await bot.fetch_user(ctx.message.author.id)
-    await ctx.send(":smiley: :wave: Welcome! {}".format(user.name))
+    mentions = ctx.message.mentions
+    greet_people = []
+    for x in mentions:
+        greet_people.append(x.name)
+
+    if len(greet_people) == 0:
+        greet_people.append("Outis")
+    await ctx.send(f":smiley: :wave:  Hello! {', '.join(greet_people)}")
+
+@bot.event
+async def on_command(ctx):
+    print(ctx.message.author.id)
+    db.print_hello(ctx.message)
+
 
 @bot.command()
 async def shutdown(ctx):
