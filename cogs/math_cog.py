@@ -43,10 +43,18 @@ class MathCog(commands.Cog):
 
     @commands.command()
     async def math(self, ctx, *, a):
-        operator = a[0:1]
+        math_expr = a.split(" ")
         #check if operator is legal operator(+-*/)
-        digits = a.split(" ")
-        value = (ops[operator](float(digits[1]),float(digits[2])))
+        if (not math_expr[0] in ops.keys()):
+            await ctx.send("Not a legal operator for this bot")
+            return
+        
+        operator = math_expr[0]
+        if (not isFloat(math_expr[1]) and not isFloat(math_expr[2])):
+            await ctx.send("Only integers and floats allowed")
+            return
+
+        value = (ops[operator](float(math_expr[1]),float(math_expr[2])))
 
         await ctx.send(value)
 
