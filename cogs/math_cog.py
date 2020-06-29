@@ -50,7 +50,7 @@ class MathCog(commands.Cog):
             return
         
         operator = math_expr[0]
-        if (not isFloat(math_expr[1]) and not isFloat(math_expr[2])):
+        if (not self.isFloat(math_expr[1]) and not self.isFloat(math_expr[2])):
             await ctx.send("Only integers and floats allowed")
             return
 
