@@ -38,10 +38,17 @@ class DBManagement():
     def print_hello(self, message):
         print(f'Hello {message.author.name}')
 
-  #  def  add_message(self, message):
-  #      db_message = db_convert(message)
-  #      self.session.add(db_message)
-  #      self.session.commit()
+    def add_db_command_record(self, message):
+        db_message = self.convert_to_record(message)
+        self.session.add(db_message)
+        self.session.commit()
 
-    #def convert_message(self, message):
-     #   db_converted = DBMessage(message.author, message.content, message.created_at) 
+    def convert_to_record(self, message):
+        db_converted = DBCommandRecord(author=message.author.name
+                , content=message.content
+                , channel=message.channel.name
+                , guild=message.guild.name
+                , message_id=message.id
+                , message_created_at=message.created_at) 
+        return db_converted
+

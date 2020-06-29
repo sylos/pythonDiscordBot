@@ -34,9 +34,7 @@ async def greet(ctx):
 
 @bot.event
 async def on_command(ctx):
-    print(ctx.message.author.id)
-    db.print_hello(ctx.message)
-
+    db.add_db_command_record(ctx.message)
 
 @bot.command()
 async def shutdown(ctx):
