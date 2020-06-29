@@ -90,7 +90,7 @@ def main():
     bot.load_extension('simple_commands')
     bot.load_extension('cogs.number_game')
     bot.load_extension('cogs.math_cog')
-
+    bot.load_extension('cogs.dad_joke_cog')
     bot.run(BOT_TOKEN)
 
 
