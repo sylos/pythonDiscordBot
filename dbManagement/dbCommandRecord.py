@@ -7,8 +7,8 @@ from sqlalchemy import Column, Integer, String
 from dbManagement.base import Base
 
 
-class DBMessage(Base):
-    __tablename__ = 'message'
+class DBCommandRecord(Base):
+    __tablename__ = 'command_record'
 
     id = Column(Integer, primary_key=True)
     uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)

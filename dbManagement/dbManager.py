@@ -9,7 +9,7 @@ import dbManagement.config as config
 from dbManagement.base import Base
 
 import dbManagement.user
-from dbManagement.dbMessage import DBMessage
+from dbManagement.dbCommandRecord import DBCommandRecord
 
 
 class DBManagement():
@@ -31,12 +31,17 @@ class DBManagement():
         self.session.commit()
     
     def test_db(self):
-        message = DBMessage(author='Sylos',content='The first message')
+        message = DBCommandRecord(author='Sylos',content='The first message')
         self.session.add(message)
         self.session.commit()
 
-#    def  add_message(self, message: Message):
-#        self.session.add(message)
-#        self.session.commit()
+    def print_hello(self, message):
+        print(f'Hello {message.author.name}')
 
-    
+  #  def  add_message(self, message):
+  #      db_message = db_convert(message)
+  #      self.session.add(db_message)
+  #      self.session.commit()
+
+    #def convert_message(self, message):
+     #   db_converted = DBMessage(message.author, message.content, message.created_at) 
