@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from  sqlalchemy_utils import database_exists, create_database
 import dbManagement.config as config
-
+import discord
 
 from dbManagement.base import Base
 
@@ -44,10 +44,11 @@ class DBManagement():
         self.session.commit()
 
     def convert_to_record(self, message):
+        dmChannel = isinstance(message.channel, discord.DMChannel)
         db_converted = DBCommandRecord(author=message.author.name
                 , content=message.content
-                , channel=message.channel.name
-                , guild=message.guild.name
+                , channel=message.channel.recipient.name if dmChannel else message.channel.name
+                , guild=None if dmChannel else message.guild.name
                 , message_id=message.id
                 , message_created_at=message.created_at) 
         return db_converted
