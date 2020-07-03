@@ -4,6 +4,12 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 from discord.ext import commands
 import random
+
+
+'''
+Built off the beautiful soup/requests tutorial.  :q
+
+'''
 class DadJokeCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -28,7 +34,8 @@ class DadJokeCog(commands.Cog):
         print(e)
 
     def parse_dadjokes(self, content):
-        joke_value = random.randint(0,7) 
+        #need to not magic number this
+        joke_value = random.randint(0,6) 
         html = BeautifulSoup(content, 'html.parser')
         all_jokes= html.find_all("div", {"class": "riddle-cont"})
         joke = []
@@ -38,7 +45,9 @@ class DadJokeCog(commands.Cog):
 
     @commands.command(name="dadjoke")
     async def get_dadjoke(self, ctx):
+        #need to not magic number this
         page = random.randint(0, 329)
+        print("page index" + str(page))
         content = self.simple_get_dadjokes('https://www.dadjokes.org/?page='+str(page))
         joke = self.parse_dadjokes(content)
         await ctx.send(f'```{joke[0]}\n{joke[1]}```')
