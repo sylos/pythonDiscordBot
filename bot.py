@@ -15,6 +15,11 @@ bot = commands.Bot(command_prefix='$', description='Waddup')
 BOT_TOKEN = cred.BOT_TOKEN
 BOT_OWNER_ID = cred.BOT_MASTER_ID
 db = DBManagement()
+DEFAULT_COGS = {'simple':'simple_commands'
+        ,'math':'cogs.math_cog', 'dadjoke':'cogs.dad_joke_cog'
+        ,'numbers':'cogs.number_game'}
+
+
 
 @bot.event
 async def on_ready():
@@ -87,11 +92,31 @@ async def command_help(ctx):
 async def testDB(ctx):
     db.test_db()   
     await ctx.send('Testing DB')
+
+@bot.command(name='list_cogs')
+async def list_cogs(ctx):
+    cogs = "```\n"
+    for cog in DEFAULT_COGS:
+        cogs += str(cog) 
+        cogs += "\n"
+
+    cogs += "```"
+    await ctx.send(cogs)
+
+@bot.command(name='reload_ext')
+async def reloadExtension(ctx, a):
+    if ctx.message.author.id == BOT_OWNER_ID:
+        if a in DEFAULT_COGS:
+            bot.reload_extension(DEFAULT_COGS[a])
+            await ctx.send("Reloading Cog")
+            return
+    await ctx.send("Not authorized")
+    return
+
 def main():
-    bot.load_extension('simple_commands')
-    bot.load_extension('cogs.number_game')
-    bot.load_extension('cogs.math_cog')
-    bot.load_extension('cogs.dad_joke_cog')
+    for cog in DEFAULT_COGS:
+        bot.load_extension(DEFAULT_COGS[cog])
+
     bot.run(BOT_TOKEN)
 
 
