@@ -9,10 +9,11 @@ import cogs.number_game
 import cogs.math_cog
 from discord.ext import commands
 from dbManagement.dbManager import DBManagement
+import credentials as cred
 
 bot = commands.Bot(command_prefix='$', description='Waddup')
-BOT_TOKEN = 'NDY2NDIyOTg5NTI1ODc2NzM2.DjAu1w.3393qog5bqEQs-o8QiTVNpJXHrc'
-BOT_OWNER_ID = 118907310243315712
+BOT_TOKEN = cred.BOT_TOKEN
+BOT_OWNER_ID = cred.BOT_MASTER_ID
 db = DBManagement()
 
 @bot.event
