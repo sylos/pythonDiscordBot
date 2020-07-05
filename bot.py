@@ -32,6 +32,16 @@ async def on_command(ctx):
     db.add_db_command_record(ctx.message)
 
 @bot.command()
+async def speak(ctx, *, a):
+    complete = a.split('#$%')[1]
+    channels = ctx.message.channel_mentions
+    
+    for channel in channels:
+        await channel.send(complete)
+    
+    return
+
+@bot.command()
 async def shutdown(ctx):
     if ctx.message.author.id == BOT_OWNER_ID:   
         await ctx.send("Killing myself!")
