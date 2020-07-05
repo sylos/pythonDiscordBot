@@ -33,11 +33,15 @@ async def on_command(ctx):
 
 @bot.command()
 async def speak(ctx, *, a):
-    complete = a.split('#$%')[1]
+    complete = a.split('#$%')
+    if not (len(complete) > 1):
+        await ctx.send("You missed the separator")
+        return
+
     channels = ctx.message.channel_mentions
     
     for channel in channels:
-        await channel.send(complete)
+        await channel.send(complete[1])
     
     return
 
