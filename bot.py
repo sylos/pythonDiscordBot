@@ -27,17 +27,6 @@ async def on_ready():
     print('bot ID: {}'.format(bot.user.id))
     print('----')
 
-@bot.command()
-async def greet(ctx):
-    mentions = ctx.message.mentions
-    greet_people = []
-    for x in mentions:
-        greet_people.append(x.name)
-
-    if len(greet_people) == 0:
-        greet_people.append("Outis")
-    await ctx.send(f":smiley: :wave:  Hello! {', '.join(greet_people)}")
-
 @bot.event
 async def on_command(ctx):
     db.add_db_command_record(ctx.message)
@@ -61,27 +50,6 @@ async def restart(ctx):
     #log this with author
     await ctx.send("I don't wanna!")
 
-@bot.command(name='author')
-async def authorID(ctx):
-    await ctx.send("author is: {}".format(
-        ctx.message.author.id))
-
-@bot.command()
-async def cat(ctx):
-    await ctx.send('Meow! =^.^=')
-
-@bot.command()
-async def roll(ctx, a:str):
-    num_dice = float(a.split('d')[0])
-    dice_type = float(a.split('d')[1])
-    random_value = 0
-
-    for x in range(int(num_dice)):
-        random_value += random.randint(1, int(dice_type))
-
-    await ctx.send("You rolled: {}".format(random_value))
-
-@bot.command()
 async def command_help(ctx):
     commands =  """```
     commands: greet, add, multiply, cat, roll
