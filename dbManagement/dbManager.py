@@ -8,7 +8,7 @@ import discord
 
 from dbManagement.base import Base
 
-import dbManagement.user
+from dbManagement.user import User
 from dbManagement.dbCommandRecord import DBCommandRecord
 
 
@@ -41,6 +41,60 @@ class DBManagement():
     def add_db_command_record(self, message):
         db_message = self.convert_to_record(message)
         self.session.add(db_message)
+        self.session.commit()
+ 
+    def add_guild(self, guild):
+        #addGuildToDB
+
+        members = self.get_guild_members(guild)
+        self.add_guild_users(members)
+      
+
+    def get_guild_members(self, guild):
+        members = []
+        for x in guild.members:
+            members.append(x.id)
+
+        return members
+
+    #incomplete
+    ''' 
+        def add_shutdown_command(self, message):
+        shutdown_record = DBShutdownCommand(
+                author = message.author.id,
+                shutdown_at = message.created_at,
+                channel_id = message.channel)
+    '''
+
+    #potential slowpoint
+    def add_user(self, member):
+        self.session.add(User(unique_user_id = member))
+        self.session.commit()
+
+    def add_guild_users(self, members):
+        new_users = []
+        new_user_ids = []
+        filtered_users = []
+        filtered_ids = []
+        print(f"Members: {members}")
+        for member in members:
+            new_user_ids.append(member)
+
+        filtered_users = self.session.query(User).with_entities(User.unique_user_id).filter(User.unique_user_id.in_(new_user_ids)).all()
+
+        for x in filtered_users:
+            filtered_ids.append(x.unique_user_id)
+
+        new_users = set(new_user_ids).difference(filtered_ids) 
+         
+        for u_u_id in new_users:
+            self.session.add(User(unique_user_id=u_u_id))
+
+        self.session.commit()
+
+
+    def add_item(self, item):
+        self.session.add(item)
         self.session.commit()
 
     def convert_to_record(self, message):

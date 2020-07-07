@@ -31,6 +31,18 @@ async def on_ready():
 async def on_command(ctx):
     db.add_db_command_record(ctx.message)
 
+@bot.event
+async def on_guild_join(guild):
+    db.add_guild(guild)
+
+@bot.command()
+async def get_member_list(ctx):
+    db.get_guild_members(ctx.guild)
+
+@bot.command()
+async def add_guild_members(ctx):
+    db.add_guild(ctx.guild)
+
 @bot.command()
 async def speak(ctx, *, a):
     complete = a.split('#$%')
