@@ -54,5 +54,5 @@ class Number_game(commands.Cog):
             await ctx.send("Number value is: {}".format(self.number))
 
 def setup(bot):
-    print('Loading number game')
+    print('Loading Number Game')
     bot.add_cog(Number_game(bot))
