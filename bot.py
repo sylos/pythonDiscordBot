@@ -26,6 +26,10 @@ async def on_ready():
     print('logged in as: {}'.format(bot.user.name))
     print('bot ID: {}'.format(bot.user.id))
     print('----')
+    shutdown = db.query_latest_shutdown()
+    if shutdown != None:
+        channel = bot.get_channel(shutdown.channel_id)
+        await channel.send("I HAVE AWOKEN!")
 
 @bot.event
 async def on_command(ctx):
@@ -58,9 +62,18 @@ async def speak(ctx, *, a):
     return
 
 @bot.command()
+async def test_shutdown(ctx):
+    db.add_shutdown_command(ctx.message, True)
+    #need to Query DB for channel information and user info
+ 
+    new_message = bot.get_channel(ctx.message.channel.id)
+    await new_message.send("This worked!")
+
+@bot.command()
 async def shutdown(ctx):
     if ctx.message.author.id == BOT_OWNER_ID:   
         await ctx.send("Killing myself!")
+        db.add_shutdown_command(ctx.message, False)
         sys.exit('Killing Bot')
 #log this    
     await ctx.send("""Killing myself!  Haha...just kidding.  
@@ -70,10 +83,10 @@ async def shutdown(ctx):
 async def restart(ctx):
     if ctx.message.author.id == BOT_OWNER_ID:
         await ctx.send("Taking a nap then waking!")
+        db.add_shutdown_command(ctx.message, True)
         print("Restarting: {}".format(sys.argv))
         print("Running py venv: {}".format(sys.executable))
         os.execl(sys.executable,sys.executable, *sys.argv)
-    #log this with author
     await ctx.send("I don't wanna!")
 
 async def command_help(ctx):
@@ -87,7 +100,7 @@ async def testDB(ctx):
     db.test_db()   
     await ctx.send('Testing DB')
 
-@bot.command(name='list_cogs')
+@bot.command(name='cogs')
 async def list_cogs(ctx):
     cogs = "```\n"
     for cog in DEFAULT_COGS:

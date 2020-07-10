@@ -7,8 +7,8 @@ import dbManagement.config as config
 import discord
 
 from dbManagement.base import Base
-
 from dbManagement.user import User
+from dbManagement.dbShutdownCommand import DBShutdownCommand
 from dbManagement.dbCommandRecord import DBCommandRecord
 
 
@@ -30,13 +30,13 @@ class DBManagement():
         Base.metadata.create_all(self.engine)
         self.session.commit()
     
+    def print_hello(self, message):
+        print(f'Hello {message.author.name}')
+
     def test_db(self):
         message = DBCommandRecord(author='Sylos',content='The first message')
         self.session.add(message)
         self.session.commit()
-
-    def print_hello(self, message):
-        print(f'Hello {message.author.name}')
 
     def add_db_command_record(self, message):
         db_message = self.convert_to_record(message)
@@ -49,7 +49,6 @@ class DBManagement():
         members = self.get_guild_members(guild)
         self.add_guild_users(members)
       
-
     def get_guild_members(self, guild):
         members = []
         for x in guild.members:
@@ -57,15 +56,22 @@ class DBManagement():
 
         return members
 
-    #incomplete
-    ''' 
-        def add_shutdown_command(self, message):
+    def add_shutdown_command(self, message, restart=True):
         shutdown_record = DBShutdownCommand(
-                author = message.author.id,
-                shutdown_at = message.created_at,
-                channel_id = message.channel)
-    '''
+            author_id = message.author.id,
+            shutdown_at = message.created_at,
+            channel_id = message.channel.id,
+            restart = restart)
 
+        self.add_item(shutdown_record)
+        return
+
+    def query_latest_shutdown(self):
+        latest_shutdown = self.session.query(
+                DBShutdownCommand).order_by(
+                        DBShutdownCommand.shutdown_at.desc()).first()
+
+        return latest_shutdown
     #potential slowpoint
     def add_user(self, member):
         self.session.add(User(unique_user_id = member))
