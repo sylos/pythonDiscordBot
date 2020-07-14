@@ -37,16 +37,16 @@ async def on_command(ctx):
 
 @bot.event
 async def on_guild_join(guild):
-    db.add_guild(guild)
-
-@bot.command()
-async def get_member_list(ctx):
-    db.get_guild_members(ctx.guild)
+    db.join_guild(guild)
 
 @bot.command()
 async def add_guild_members(ctx):
-    db.add_guild(ctx.guild)
+    db.add_guild_users(ctx.guild)
 
+@bot.command()
+async def add_guild(ctx):
+    db.join_guild(ctx.guild)
+     
 @bot.command()
 async def speak(ctx, *, a):
     complete = a.split('#$%')
@@ -62,18 +62,11 @@ async def speak(ctx, *, a):
     return
 
 @bot.command()
-async def test_shutdown(ctx):
-    db.add_shutdown_command(ctx.message, True)
-    #need to Query DB for channel information and user info
- 
-    new_message = bot.get_channel(ctx.message.channel.id)
-    await new_message.send("This worked!")
-
-@bot.command()
 async def shutdown(ctx):
     if ctx.message.author.id == BOT_OWNER_ID:   
         await ctx.send("Killing myself!")
         db.add_shutdown_command(ctx.message, False)
+        db.shutdown()
         sys.exit('Killing Bot')
 #log this    
     await ctx.send("""Killing myself!  Haha...just kidding.  
@@ -84,6 +77,7 @@ async def restart(ctx):
     if ctx.message.author.id == BOT_OWNER_ID:
         await ctx.send("Taking a nap then waking!")
         db.add_shutdown_command(ctx.message, True)
+        db.shutdown()
         print("Restarting: {}".format(sys.argv))
         print("Running py venv: {}".format(sys.executable))
         os.execl(sys.executable,sys.executable, *sys.argv)
