@@ -1,6 +1,11 @@
 from discord.ext import commands
 import random
 
+
+#a little number guessing game I wrote.
+#this is a little prototype.  A lot of room for expansion
+#Currently doesn't handle a lot of users.  But it's fun
+#and quick.
 class Number_game(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

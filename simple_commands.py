@@ -2,6 +2,10 @@ from discord.ext import commands
 import datetime
 import random
 
+
+#A bunch of very simple commands (greet, etc)
+#These were the first sets of commands written for the bot
+#pretty self explanatory.
 class Simple_commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -20,10 +24,6 @@ class Simple_commands(commands.Cog):
             greet_people.append("Outis")
 
         await ctx.send(f":smiley: :wave: Hello! {', '.join(greet_people)}")
-
-    @commands.command()
-    async def chanUsers(self, ctx):
-        await ctx.send("Channel Users: {}".format(ctx.channel.members.name))
 
     @commands.command()
     async def cat(self, ctx):

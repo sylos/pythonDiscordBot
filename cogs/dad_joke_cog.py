@@ -7,8 +7,11 @@ import random
 
 
 '''
-Built off the beautiful soup/requests tutorial.  :q
-
+Built off the beautiful soup/requests tutorial. 
+Goes to a dadjoke website and scrapes it for a dad joke
+This is not a solid method.  Not generic, not sturdy.  A simple
+change to the website would render this not working.
+It's on my todo list to rework this
 '''
 class DadJokeCog(commands.Cog):
     def __init__(self, bot):
@@ -33,6 +36,8 @@ class DadJokeCog(commands.Cog):
     def log_error(e):
         print(e)
 
+    #uses beautiful soup to parse a website for a dad joke
+    #and a dad joke pun
     def parse_dadjokes(self, content):
         #need to not magic number this
         joke_value = random.randint(0,6) 
