@@ -1,6 +1,7 @@
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import sqlalchemy
 from  sqlalchemy_utils import database_exists, create_database
 import dbManagement.config as config
 import discord
