@@ -7,6 +7,8 @@ import os
 import simple_commands
 import cogs.number_game
 import cogs.math_cog
+import cogs.stock_cog
+
 from discord.ext import commands
 from dbManagement.dbManager import DBManagement
 import credentials as cred
@@ -26,7 +28,7 @@ db = DBManagement()
 #It handles idealogical chunks of commands.
 DEFAULT_COGS = {'simple':'simple_commands'
         ,'math':'cogs.math_cog', 'dadjoke':'cogs.dad_joke_cog'
-        ,'numbers':'cogs.number_game'}
+        ,'numbers':'cogs.number_game','stock':'cogs.stock_cog'}
 
 
 #check for certain things when the bot starts up
