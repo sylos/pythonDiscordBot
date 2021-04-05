@@ -1,11 +1,15 @@
 from discord.ext import commands
+import discord
 import datetime
 import random
-
+import io
+import aiohttp
 
 #A bunch of very simple commands (greet, etc)
 #These were the first sets of commands written for the bot
 #pretty self explanatory.
+
+cat_url = 'https://aws.random.cat/meow'
 class Simple_commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -27,7 +31,20 @@ class Simple_commands(commands.Cog):
 
     @commands.command()
     async def cat(self, ctx):
-        await ctx.send("Meow! =^.^=")
+        async with aiohttp.ClientSession() as session:
+            async with session.get(cat_url) as resp:
+                if resp.status != 200:
+                    return await channel.send('Could not download file...')
+                
+                image_url = await resp.json()
+                async with session.get(image_url['file']) as image:
+                    if image.status != 200:
+                        return await channel.send('blagh')
+    
+                    data = io.BytesIO(await image.read())
+
+               
+            await ctx.channel.send(file=discord.File(data, 'cat.png'))
 
     @commands.command()
     async def repeat(self,ctx,*, a: str="No strings on me"):
